@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="base_dimen">8dp</dimen>
+    <dimen name="fab_dimen">24dp</dimen>
+    <dimen name="img_dimen">100dp</dimen>
+    <dimen name="base_alpha">0.5</dimen>
+
+    <dimen name="base_text">18sp</dimen>
+</resources>
