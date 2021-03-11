@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <dimen name="half_base_dimen">4dp</dimen>
     <dimen name="base_dimen">8dp</dimen>
+    <dimen name="radius_dimen">10dp</dimen>
     <dimen name="fab_dimen">24dp</dimen>
     <dimen name="img_dimen">100dp</dimen>
     <dimen name="base_alpha">0.5</dimen>
 
+    <dimen name="icon_between_dimen">24dp</dimen>
+
+    <dimen name="text_dimen">12dp</dimen>
+
     <dimen name="base_text">18sp</dimen>
+    <dimen name="title_text">20sp</dimen>
 </resources>
