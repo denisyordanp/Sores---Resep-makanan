@@ -1,4 +1,4 @@
-package com.socialite.sores.views.mainFragments
+package com.socialite.sores.ui.mainFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

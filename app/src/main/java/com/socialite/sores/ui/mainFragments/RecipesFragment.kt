@@ -1,4 +1,4 @@
-package com.socialite.sores.views.mainFragments
+package com.socialite.sores.ui.mainFragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,13 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import com.socialite.sores.R
 
-class FavoriteRecipeFragment : Fragment() {
+class RecipeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favorite_recipes, container, false)
+        val view = inflater.inflate(R.layout.fragment_recipes, container, false)
+//        view.recycleView.showShimmer()
+//        view.recycleView.hideShimmer()
+        return view
     }
 }
