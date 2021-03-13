@@ -2,10 +2,12 @@ package com.socialite.sores.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.socialite.sores.databinding.RecipesRowLayoutBinding
 import com.socialite.sores.models.FoodRecipe
 import com.socialite.sores.models.Result
+import com.socialite.sores.util.RecipesDiffUtil
 
 class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
@@ -44,7 +46,9 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
     }
 
     fun setRecipes(recipes: FoodRecipe) {
+        val recipesDiffUtils = RecipesDiffUtil(this.recipes, recipes.results)
+        val diffUtilResult = DiffUtil.calculateDiff(recipesDiffUtils)
         this.recipes = recipes.results
-        notifyDataSetChanged()
+        diffUtilResult.dispatchUpdatesTo(this)
     }
 }
