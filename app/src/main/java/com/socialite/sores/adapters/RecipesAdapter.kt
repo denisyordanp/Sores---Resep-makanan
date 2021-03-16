@@ -13,7 +13,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
 
     private var recipes = emptyList<Result>()
 
-    class MyViewHolder(private val _binding: RecipesRowLayoutBinding) :
+    class MyViewHolder(private val _binding: RecipesRowLayoutBinding):
         RecyclerView.ViewHolder(_binding.root) {
 
         fun bind(result: Result) {
@@ -21,7 +21,7 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
             _binding.executePendingBindings()
         }
 
-        companion object{
+        companion object {
 
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -37,8 +37,8 @@ class RecipesAdapter : RecyclerView.Adapter<RecipesAdapter.MyViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        val currentResult = recipes[position]
-        holder.bind(currentResult)
+        val currentRecipe = recipes[position]
+        holder.bind(currentRecipe)
     }
 
     override fun getItemCount(): Int {

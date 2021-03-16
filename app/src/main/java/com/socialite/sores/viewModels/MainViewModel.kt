@@ -1,4 +1,4 @@
-package com.socialite.sores
+package com.socialite.sores.viewModels
 
 import android.app.Application
 import android.content.Context

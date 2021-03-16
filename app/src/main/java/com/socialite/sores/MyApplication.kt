@@ -1,4 +1,4 @@
-package com.socialite.sores.di
+package com.socialite.sores
 
 import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
