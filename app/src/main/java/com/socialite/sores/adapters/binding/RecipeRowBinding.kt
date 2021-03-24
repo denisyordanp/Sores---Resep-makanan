@@ -5,11 +5,20 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import coil.load
 import com.socialite.sores.R
 
 class RecipeRowBinding {
 
     companion object {
+
+        @BindingAdapter("loadImageFromUrl")
+        @JvmStatic
+        fun loadImageFromUrl(imageView: ImageView, url: String) {
+            imageView.load(url) {
+                crossfade(600)
+            }
+        }
 
         @BindingAdapter("setNumberOfLikes")
         @JvmStatic
