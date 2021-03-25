@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.socialite.sores.R
 import com.socialite.sores.adapters.RecipesAdapter
@@ -16,6 +17,7 @@ import com.socialite.sores.viewModels.MainViewModel
 import com.socialite.sores.viewModels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_recipes.view.*
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
@@ -39,9 +41,28 @@ class RecipeFragment : Fragment() {
         mView = inflater.inflate(R.layout.fragment_recipes, container, false)
 
         setupRecycleView()
-        requestApiData()
+        readDatabase()
 
         return mView
+    }
+
+    private fun readDatabase() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    mAdapter.setRecipes(database[0].foodRecipe)
+                    hideShimmer()
+                } else {
+                    requestApiData()
+                }
+            }
+        }
+    }
+
+    private fun setupRecycleView() {
+        mView.recycleView.adapter = mAdapter
+        mView.recycleView.layoutManager = LinearLayoutManager(requireContext())
+        showShimmer()
     }
 
     private fun requestApiData() {
@@ -54,10 +75,21 @@ class RecipeFragment : Fragment() {
                 }
                 is NetworkResult.Error -> {
                     hideShimmer()
+                    loadDataFromCache()
                     response.message?.let { showToast(it) }
                 }
                 is NetworkResult.Loading -> {
                     showShimmer()
+                }
+            }
+        }
+    }
+
+    private fun loadDataFromCache() {
+        lifecycleScope.launch {
+            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+                if (database.isNotEmpty()) {
+                    mAdapter.setRecipes(database[0].foodRecipe)
                 }
             }
         }
@@ -73,12 +105,6 @@ class RecipeFragment : Fragment() {
                 message,
                 Toast.LENGTH_SHORT
         ).show()
-    }
-
-    private fun setupRecycleView() {
-        mView.recycleView.adapter = mAdapter
-        mView.recycleView.layoutManager = LinearLayoutManager(requireContext())
-        showShimmer()
     }
 
     private fun hideShimmer() {
