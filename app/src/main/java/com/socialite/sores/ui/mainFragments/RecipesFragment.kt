@@ -9,22 +9,24 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.socialite.sores.R
 import com.socialite.sores.adapters.RecipesAdapter
+import com.socialite.sores.databinding.FragmentRecipesBinding
 import com.socialite.sores.models.FoodRecipe
 import com.socialite.sores.util.NetworkResult
+import com.socialite.sores.util.observeOnce
 import com.socialite.sores.viewModels.MainViewModel
 import com.socialite.sores.viewModels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_recipes.view.*
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
 
+    private var _binding: FragmentRecipesBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var recipesViewModel: RecipesViewModel
     private lateinit var mainViewModel: MainViewModel
-    private lateinit var mView: View
 
     private val mAdapter by lazy { RecipesAdapter() }
 
@@ -38,17 +40,19 @@ class RecipeFragment : Fragment() {
             inflater: LayoutInflater, container: ViewGroup?,
             savedInstanceState: Bundle?,
     ): View {
-        mView = inflater.inflate(R.layout.fragment_recipes, container, false)
+        _binding = FragmentRecipesBinding.inflate(inflater, container, false)
+        binding.lifecycleOwner = this
+        binding.viewModel = mainViewModel
 
         setupRecycleView()
         readDatabase()
 
-        return mView
+        return binding.root
     }
 
     private fun readDatabase() {
         lifecycleScope.launch {
-            mainViewModel.readRecipes.observe(viewLifecycleOwner) { database ->
+            mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
                 if (database.isNotEmpty()) {
                     mAdapter.setRecipes(database[0].foodRecipe)
                     hideShimmer()
@@ -60,8 +64,8 @@ class RecipeFragment : Fragment() {
     }
 
     private fun setupRecycleView() {
-        mView.recycleView.adapter = mAdapter
-        mView.recycleView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recycleView.adapter = mAdapter
+        binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
         showShimmer()
     }
 
@@ -108,11 +112,16 @@ class RecipeFragment : Fragment() {
     }
 
     private fun hideShimmer() {
-        mView.recycleView?.hideShimmer()
+        binding.recycleView.hideShimmer()
     }
 
     private fun showShimmer() {
-        mView.recycleView?.showShimmer()
+        binding.recycleView.showShimmer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
 }
