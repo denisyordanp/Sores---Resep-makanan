@@ -1,4 +1,4 @@
-package com.socialite.sores.ui.mainFragments
+package com.socialite.sores.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,9 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.socialite.sores.R
 import com.socialite.sores.adapters.RecipesAdapter
 import com.socialite.sores.databinding.FragmentRecipesBinding
 import com.socialite.sores.models.FoodRecipe
@@ -46,6 +48,10 @@ class RecipeFragment : Fragment() {
 
         setupRecycleView()
         readDatabase()
+
+        binding.recipesFab.setOnClickListener {
+            findNavController().navigate(R.id.action_recipesFragment_to_recipeBottomSheet)
+        }
 
         return binding.root
     }
