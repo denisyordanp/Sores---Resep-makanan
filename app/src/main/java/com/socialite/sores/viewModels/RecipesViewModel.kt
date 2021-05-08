@@ -1,6 +1,7 @@
 package com.socialite.sores.viewModels
 
 import android.app.Application
+import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -26,6 +27,8 @@ class RecipesViewModel @ViewModelInject constructor(
 
     private var mealTYpe = DEFAULT_MEAL_TYPE
     private var dietType = DEFAULT_DIET_TYPE
+
+    var isNetworkAvailable = false
 
     val readMealAndDietType = dataStoreRepository.readMelaAndDietType
 
@@ -54,4 +57,9 @@ class RecipesViewModel @ViewModelInject constructor(
         return queries
     }
 
+    fun showNetworkStatus() {
+        if (!isNetworkAvailable) {
+            Toast.makeText(getApplication(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+        }
+    }
 }

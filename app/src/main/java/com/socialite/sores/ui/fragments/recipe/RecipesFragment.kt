@@ -15,13 +15,17 @@ import com.socialite.sores.R
 import com.socialite.sores.adapters.RecipesAdapter
 import com.socialite.sores.databinding.FragmentRecipesBinding
 import com.socialite.sores.models.FoodRecipe
+import com.socialite.sores.util.NetworkListener
 import com.socialite.sores.util.NetworkResult
 import com.socialite.sores.util.observeOnce
 import com.socialite.sores.viewModels.MainViewModel
 import com.socialite.sores.viewModels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
+@ExperimentalCoroutinesApi
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
 
@@ -34,6 +38,8 @@ class RecipeFragment : Fragment() {
     private lateinit var mainViewModel: MainViewModel
 
     private val mAdapter by lazy { RecipesAdapter() }
+
+    private lateinit var networkListener: NetworkListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +58,30 @@ class RecipeFragment : Fragment() {
         setupRecycleView()
         readDatabase()
 
+        lifecycleScope.launch {
+            networkListener = NetworkListener()
+            networkListener.checkNetworkAvailability(requireContext())
+                .collect { status ->
+                    recipesViewModel.isNetworkAvailable = status
+                    recipesViewModel.showNetworkStatus()
+                }
+        }
+
         binding.recipesFab.setOnClickListener {
-            findNavController().navigate(R.id.action_recipesFragment_to_recipeBottomSheet)
+            if (recipesViewModel.isNetworkAvailable) {
+                findNavController().navigate(R.id.action_recipesFragment_to_recipeBottomSheet)
+            } else {
+                recipesViewModel.showNetworkStatus()
+            }
         }
 
         return binding.root
+    }
+
+    private fun setupRecycleView() {
+        binding.recycleView.adapter = mAdapter
+        binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
+        showShimmer()
     }
 
     private fun readDatabase() {
@@ -70,12 +95,6 @@ class RecipeFragment : Fragment() {
                 }
             }
         }
-    }
-
-    private fun setupRecycleView() {
-        binding.recycleView.adapter = mAdapter
-        binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
-        showShimmer()
     }
 
     private fun requestApiData() {
