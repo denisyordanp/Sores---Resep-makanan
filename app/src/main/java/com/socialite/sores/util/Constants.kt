@@ -24,10 +24,10 @@ class Constants(){
         const val DEFAULT_MEAL_TYPE = "main course"
         const val DEFAULT_DIET_TYPE = "gluten free"
 
-        const val PREFERENCE_NAME = "sore_preferences"
+        const val PREFERENCE_NAME = "sores_preferences"
         const val PREFERENCE_MEAL_TYPE = "mealType"
         const val PREFERENCE_MEAL_TYPE_ID = "mealTypeId"
-        const val PREFERENCE_DIET_TYPE = "dietTypeId"
+        const val PREFERENCE_DIET_TYPE = "dietType"
         const val PREFERENCE_DIET_TYPE_ID = "dietTypeId"
     }
 }

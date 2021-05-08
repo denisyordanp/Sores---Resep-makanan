@@ -1,4 +1,4 @@
-package com.socialite.sores.ui.fragments
+package com.socialite.sores.ui.fragments.recipe
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.socialite.sores.R
 import com.socialite.sores.adapters.RecipesAdapter
@@ -23,6 +24,8 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RecipeFragment : Fragment() {
+
+    private val args by navArgs<RecipeFragmentArgs>()
 
     private var _binding: FragmentRecipesBinding? = null
     private val binding get() = _binding!!
@@ -59,7 +62,7 @@ class RecipeFragment : Fragment() {
     private fun readDatabase() {
         lifecycleScope.launch {
             mainViewModel.readRecipes.observeOnce(viewLifecycleOwner) { database ->
-                if (database.isNotEmpty()) {
+                if (database.isNotEmpty() && !args.backFromBottomSheet) {
                     mAdapter.setRecipes(database[0].foodRecipe)
                     hideShimmer()
                 } else {
