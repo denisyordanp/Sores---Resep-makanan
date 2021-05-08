@@ -5,6 +5,7 @@ import androidx.datastore.DataStore
 import androidx.datastore.preferences.*
 import com.socialite.sores.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.socialite.sores.util.Constants.Companion.DEFAULT_MEAL_TYPE
+import com.socialite.sores.util.Constants.Companion.PREFERENCE_BACK_ONLINE
 import com.socialite.sores.util.Constants.Companion.PREFERENCE_DIET_TYPE
 import com.socialite.sores.util.Constants.Companion.PREFERENCE_DIET_TYPE_ID
 import com.socialite.sores.util.Constants.Companion.PREFERENCE_MEAL_TYPE
@@ -26,6 +27,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
         val selectedMealTypeId = preferencesKey<Int>(PREFERENCE_MEAL_TYPE_ID)
         val selectedDietType = preferencesKey<String>(PREFERENCE_DIET_TYPE)
         val selectedDietTypeId = preferencesKey<Int>(PREFERENCE_DIET_TYPE_ID)
+        val isBackOnline = preferencesKey<Boolean>(PREFERENCE_BACK_ONLINE)
     }
 
     private val dataStore: DataStore<Preferences> = context.createDataStore(
@@ -43,6 +45,12 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
             preferences[PreferenceKeys.selectedMealTypeId] = mealTypeId
             preferences[PreferenceKeys.selectedDietType] = dietType
             preferences[PreferenceKeys.selectedDietTypeId] = dietTypeId
+        }
+    }
+
+    suspend fun saveIsBackOnline(isBackOnline: Boolean) {
+        dataStore.edit { preference ->
+            preference[PreferenceKeys.isBackOnline] = isBackOnline
         }
     }
 
@@ -66,6 +74,19 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
                 selectedDietType,
                 selectedDietTypeId
             )
+        }
+
+    val readIsBackOnline: Flow<Boolean> = dataStore.data
+        .catch { exception ->
+            if (exception is IOException) {
+                emit(emptyPreferences())
+            } else {
+                throw exception
+            }
+        }
+        .map { preference ->
+            val isBackOnline = preference[PreferenceKeys.isBackOnline] ?: false
+            isBackOnline
         }
 
 }

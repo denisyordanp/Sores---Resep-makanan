@@ -4,6 +4,7 @@ import android.app.Application
 import android.widget.Toast
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.socialite.sores.data.DataStoreRepository
 import com.socialite.sores.util.Constants.Companion.API_KEY
@@ -29,12 +30,19 @@ class RecipesViewModel @ViewModelInject constructor(
     private var dietType = DEFAULT_DIET_TYPE
 
     var isNetworkAvailable = false
+    var isBackOnline = false
 
     val readMealAndDietType = dataStoreRepository.readMelaAndDietType
+    val readIsBackOnline = dataStoreRepository.readIsBackOnline.asLiveData()
 
     fun saveMealAndDietType(mealType: String, mealTypeId: Int, dietType: String, dietTypeId: Int) =
         viewModelScope.launch(Dispatchers.IO) {
             dataStoreRepository.saveMealAndDietType(mealType, mealTypeId, dietType, dietTypeId)
+        }
+
+    private fun saveIsBackOnline(isBackOnline: Boolean) =
+        viewModelScope.launch(Dispatchers.IO) {
+            dataStoreRepository.saveIsBackOnline(isBackOnline)
         }
 
     fun applyQueries(): HashMap<String, String> {
@@ -59,7 +67,13 @@ class RecipesViewModel @ViewModelInject constructor(
 
     fun showNetworkStatus() {
         if (!isNetworkAvailable) {
-            Toast.makeText(getApplication(), "No Internet Connection", Toast.LENGTH_SHORT).show()
+            Toast.makeText(getApplication(), "No Internet Connection.", Toast.LENGTH_SHORT).show()
+            saveIsBackOnline(true)
+        } else {
+            if (isBackOnline) {
+                Toast.makeText(getApplication(), "We're back online.", Toast.LENGTH_SHORT).show()
+                saveIsBackOnline(false)
+            }
         }
     }
 }
