@@ -3,11 +3,12 @@ package com.socialite.sores.util
 class Constants{
     companion object{
         const val BASE_URL = "https://api.spoonacular.com"
-        const val API_KEY = "84fe2089efcb4c76a362c37eec99473d"
+        const val API_KEY = "275e581770c54b6f9747581d1b46b3b8"
         const val SEARCH_API = "/recipes/complexSearch"
 
 //        API Query
 
+        const val QUERY_SEARCH = "query"
         const val QUERY_NUMBER = "number"
         const val QUERY_API_KEY = "apiKey"
         const val QUERY_TYPE = "type"

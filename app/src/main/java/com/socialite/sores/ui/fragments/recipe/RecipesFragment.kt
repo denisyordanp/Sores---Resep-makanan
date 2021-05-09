@@ -1,6 +1,7 @@
 package com.socialite.sores.ui.fragments.recipe
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -105,6 +106,10 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     override fun onQueryTextSubmit(query: String?): Boolean {
+        if (!query.isNullOrEmpty()) {
+            Log.w("TESTINGDATA", "not null")
+            searchApiData(query)
+        }
         return true
     }
 
@@ -128,6 +133,26 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun requestApiData() {
         mainViewModel.getRecipes(recipesViewModel.applyQueries())
         mainViewModel.recipesResponse.observe(viewLifecycleOwner) { response ->
+            when (response) {
+                is NetworkResult.Success -> {
+                    hideShimmer()
+                    response.data?.let { fillAdapter(it) }
+                }
+                is NetworkResult.Error -> {
+                    hideShimmer()
+                    loadDataFromCache()
+                    response.message?.let { showToast(it) }
+                }
+                is NetworkResult.Loading -> {
+                    showShimmer()
+                }
+            }
+        }
+    }
+
+    private fun searchApiData(searchQuery: String) {
+        mainViewModel.searchRecipes(recipesViewModel.applySearchQueries(searchQuery))
+        mainViewModel.searchRecipesResponse.observe(viewLifecycleOwner) { response ->
             when (response) {
                 is NetworkResult.Success -> {
                     hideShimmer()
