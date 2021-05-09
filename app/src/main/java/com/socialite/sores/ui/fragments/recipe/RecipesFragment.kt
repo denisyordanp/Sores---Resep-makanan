@@ -1,10 +1,9 @@
 package com.socialite.sores.ui.fragments.recipe
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 @AndroidEntryPoint
-class RecipeFragment : Fragment() {
+class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     private val args by navArgs<RecipeFragmentArgs>()
 
@@ -52,10 +51,33 @@ class RecipeFragment : Fragment() {
             savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
-        binding.lifecycleOwner = this
-        binding.viewModel = mainViewModel
 
         setupRecycleView()
+        setHasOptionsMenu(true)
+        setUpViewModel()
+        setUpLListener()
+
+        return binding.root
+    }
+
+    private fun setupRecycleView() {
+        binding.recycleView.adapter = mAdapter
+        binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
+        showShimmer()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.recipes_menu, menu)
+
+        val search = menu.findItem(R.id.menu_search)
+        val searchView = search.actionView as? SearchView
+        searchView?.isSubmitButtonEnabled = true
+        searchView?.setOnQueryTextListener(this)
+    }
+
+    private fun setUpViewModel() {
+        binding.lifecycleOwner = this
+        binding.viewModel = mainViewModel
 
         recipesViewModel.readIsBackOnline.observe(viewLifecycleOwner) {
             recipesViewModel.isBackOnline = it
@@ -70,7 +92,9 @@ class RecipeFragment : Fragment() {
                     readDatabase()
                 }
         }
+    }
 
+    private fun setUpLListener() {
         binding.recipesFab.setOnClickListener {
             if (recipesViewModel.isNetworkAvailable) {
                 findNavController().navigate(R.id.action_recipesFragment_to_recipeBottomSheet)
@@ -78,14 +102,14 @@ class RecipeFragment : Fragment() {
                 recipesViewModel.showNetworkStatus()
             }
         }
-
-        return binding.root
     }
 
-    private fun setupRecycleView() {
-        binding.recycleView.adapter = mAdapter
-        binding.recycleView.layoutManager = LinearLayoutManager(requireContext())
-        showShimmer()
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return true
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return true
     }
 
     private fun readDatabase() {
