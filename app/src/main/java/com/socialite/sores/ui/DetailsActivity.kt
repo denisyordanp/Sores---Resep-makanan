@@ -18,7 +18,7 @@ class DetailsActivity : AppCompatActivity() {
     private val args by navArgs<DetailsActivityArgs>()
 
     companion object{
-        private const val RESULT_BUNDLE_KEY = "resultBundle"
+        const val RESULT_BUNDLE_KEY = "resultBundle"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,8 +43,9 @@ class DetailsActivity : AppCompatActivity() {
     }
 
     private fun setUpViewPager() {
+        val myBundle = bundle
         val adapter = PagerAdapter(
-            bundle,
+            myBundle,
             fragments,
             titles,
             supportFragmentManager

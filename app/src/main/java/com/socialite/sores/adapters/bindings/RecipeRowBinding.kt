@@ -12,6 +12,7 @@ import coil.load
 import com.socialite.sores.R
 import com.socialite.sores.models.Result
 import com.socialite.sores.ui.fragments.recipe.RecipeFragmentDirections
+import org.jsoup.Jsoup
 
 class RecipeRowBinding {
 
@@ -70,6 +71,15 @@ class RecipeRowBinding {
                        view.setColorFilter(color)
                     }
                 }
+            }
+        }
+
+        @BindingAdapter("parseHtml")
+        @JvmStatic
+        fun parseHtml(textView: TextView, summary: String?) {
+            if (!summary.isNullOrEmpty()) {
+                val sum = Jsoup.parse(summary).text()
+                textView.text = sum
             }
         }
 
