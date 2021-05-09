@@ -12,7 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.socialite.sores.R
-import com.socialite.sores.adapters.RecipesAdapter
+import com.socialite.sores.adapters.recycleViews.RecipesAdapter
 import com.socialite.sores.databinding.FragmentRecipesBinding
 import com.socialite.sores.models.FoodRecipe
 import com.socialite.sores.util.NetworkListener

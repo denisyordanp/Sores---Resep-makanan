@@ -1,4 +1,4 @@
-package com.socialite.sores.adapters.binding
+package com.socialite.sores.adapters.bindings
 
 import android.view.View
 import android.widget.ImageView

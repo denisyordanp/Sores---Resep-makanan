@@ -1,4 +1,4 @@
-package com.socialite.sores.ui.fragments
+package com.socialite.sores.ui.fragments.foodJokes
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

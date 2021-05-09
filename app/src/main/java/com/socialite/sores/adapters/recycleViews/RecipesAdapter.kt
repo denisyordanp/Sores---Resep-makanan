@@ -1,4 +1,4 @@
-package com.socialite.sores.adapters
+package com.socialite.sores.adapters.recycleViews
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
