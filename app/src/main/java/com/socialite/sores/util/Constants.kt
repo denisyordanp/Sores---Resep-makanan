@@ -3,6 +3,7 @@ package com.socialite.sores.util
 class Constants{
     companion object{
         const val BASE_URL = "https://api.spoonacular.com"
+        const val BASE_IMAGE_URL = "https://spoonacular.com/cdn/ingredients_100x100/"
         const val API_KEY = "275e581770c54b6f9747581d1b46b3b8"
         const val SEARCH_API = "/recipes/complexSearch"
 

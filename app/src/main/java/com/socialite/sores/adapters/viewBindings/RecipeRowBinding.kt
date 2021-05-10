@@ -1,4 +1,4 @@
-package com.socialite.sores.adapters.bindings
+package com.socialite.sores.adapters.viewBindings
 
 import android.util.Log
 import android.view.View
