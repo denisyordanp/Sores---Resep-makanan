@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.socialite.sores.data.database.RecipesEntity
+import com.socialite.sores.data.database.entities.RecipesEntity
 import com.socialite.sores.models.FoodRecipe
 import com.socialite.sores.util.NetworkResult
 

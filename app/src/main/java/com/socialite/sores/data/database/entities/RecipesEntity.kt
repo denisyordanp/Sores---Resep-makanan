@@ -1,4 +1,4 @@
-package com.socialite.sores.data.database
+package com.socialite.sores.data.database.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
