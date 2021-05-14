@@ -6,20 +6,24 @@ import androidx.fragment.app.FragmentActivity
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.socialite.sores.R
 import com.socialite.sores.data.database.entities.FavoritesEntity
 import com.socialite.sores.databinding.FavoriteRecipesRowLayoutBinding
 import com.socialite.sores.ui.fragments.favorites.FavoriteRecipeFragmentDirections
 import com.socialite.sores.util.RecipesDiffUtil
+import com.socialite.sores.viewModels.MainViewModel
 import kotlinx.android.synthetic.main.favorite_recipes_row_layout.view.*
 
 class FavoriteRecipesAdapter(
-    private val requireActivity: FragmentActivity
+    private val requireActivity: FragmentActivity,
+    private val mainViewModel: MainViewModel
 ) : RecyclerView.Adapter<FavoriteRecipesAdapter.MyViewHolder>(), ActionMode.Callback {
 
     private var multiSelectionMode = false
 
     private lateinit var mActionMode: ActionMode
+    private lateinit var rootView: View
 
     private var myViewHolders = arrayListOf<MyViewHolder>()
     private var multiSelectedRecipes = arrayListOf<FavoritesEntity>()
@@ -52,6 +56,7 @@ class FavoriteRecipesAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         myViewHolders.add(holder)
+        rootView = holder.itemView.rootView
         val currentFavorite = favoriteEntities[position]
         holder.bind(currentFavorite)
         setOnSingleClickListener(holder, currentFavorite)
@@ -131,6 +136,9 @@ class FavoriteRecipesAdapter(
     }
 
     override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+        if (item?.itemId == R.id.delete_favorite_recipe) {
+            deleteSelectedFavoriteRecipes(mode)
+        }
         return true
     }
 
@@ -139,10 +147,23 @@ class FavoriteRecipesAdapter(
         applyStatusBarColor(R.color.statusBarColor)
     }
 
-    private fun setOffMultiSelectionMode() {
-        myViewHolders.forEach { holder ->
-            changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.strokeColor)
+    private fun deleteSelectedFavoriteRecipes(actionMode: ActionMode?) {
+        multiSelectedRecipes.forEach {
+            mainViewModel.deleteFavoriteRecipe(it)
         }
+        showDeletedSnack("${multiSelectedRecipes.size} item/s deleted.")
+        resetMultiSelections()
+        actionMode?.finish()
+    }
+
+    private fun setOffMultiSelectionMode() {
+        myViewHolders.forEach {
+            changeRecipeStyle(it, R.color.cardBackgroundColor, R.color.strokeColor)
+        }
+        resetMultiSelections()
+    }
+
+    private fun resetMultiSelections() {
         multiSelectionMode = false
         multiSelectedRecipes.clear()
     }
@@ -156,5 +177,14 @@ class FavoriteRecipesAdapter(
         val diffUtilResult = DiffUtil.calculateDiff(favoriteRecipeDiffUtils)
         this.favoriteEntities = favoritesEntities
         diffUtilResult.dispatchUpdatesTo(this)
+    }
+
+    private fun showDeletedSnack(message: String) {
+        Snackbar.make(
+            rootView,
+            message,
+            Snackbar.LENGTH_SHORT
+        ).setAction("Ok") {}
+            .show()
     }
 }
