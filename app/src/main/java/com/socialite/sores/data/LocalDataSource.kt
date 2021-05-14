@@ -2,6 +2,7 @@ package com.socialite.sores.data
 
 import com.socialite.sores.data.database.RecipesDao
 import com.socialite.sores.data.database.entities.FavoritesEntity
+import com.socialite.sores.data.database.entities.FoodJokeEntity
 import com.socialite.sores.data.database.entities.RecipesEntity
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -18,8 +19,16 @@ class LocalDataSource @Inject constructor(
         return recipesDao.readFavoriteRecipes()
     }
 
+    fun readFoodJoke(): Flow<List<FoodJokeEntity>> {
+        return recipesDao.readFoodJoke()
+    }
+
     suspend fun insertRecipes(foodRecipes: RecipesEntity) {
         recipesDao.insertRecipes(foodRecipes)
+    }
+
+    suspend fun insertFoodJoke(foodJokeEntity: FoodJokeEntity) {
+        recipesDao.insertFoodJoke(foodJokeEntity)
     }
 
     suspend fun insertFavoriteRecipe(favoritesEntity: FavoritesEntity) {
