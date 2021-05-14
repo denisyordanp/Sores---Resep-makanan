@@ -19,6 +19,8 @@ class FavoriteRecipesAdapter(
 
     private var multiSelectionMode = false
 
+    private lateinit var mActionMode: ActionMode
+
     private var myViewHolders = arrayListOf<MyViewHolder>()
     private var multiSelectedRecipes = arrayListOf<FavoritesEntity>()
     private var favoriteEntities = emptyList<FavoritesEntity>()
@@ -94,6 +96,19 @@ class FavoriteRecipesAdapter(
             multiSelectedRecipes.add(currentRecipe)
             changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.colorPrimary)
         }
+        applyActionModeTitle()
+    }
+
+    private fun applyActionModeTitle() {
+        when(val size = multiSelectedRecipes.size) {
+            0 -> mActionMode.finish()
+            1 -> {
+                mActionMode.title = "1 item selected"
+            }
+            else -> {
+                mActionMode.title = "$size items selected"
+            }
+        }
     }
 
     private fun changeRecipeStyle(holder: MyViewHolder, backgroundColor: Int, strokeColor: Int) {
@@ -106,6 +121,7 @@ class FavoriteRecipesAdapter(
 
     override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
         mode?.menuInflater?.inflate(R.menu.favorite_contextual_menu, menu)
+        mActionMode = mode!!
         applyStatusBarColor(R.color.contextualStatusBarColor)
         return true
     }
