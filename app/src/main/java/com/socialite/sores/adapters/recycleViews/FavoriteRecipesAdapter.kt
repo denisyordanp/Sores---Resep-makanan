@@ -10,6 +10,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.socialite.sores.R
 import com.socialite.sores.data.database.entities.FavoritesEntity
 import com.socialite.sores.databinding.FavoriteRecipesRowLayoutBinding
+import com.socialite.sores.models.Result
 import com.socialite.sores.ui.fragments.favorites.FavoriteRecipeFragmentDirections
 import com.socialite.sores.util.RecipesDiffUtil
 import com.socialite.sores.viewModels.MainViewModel
@@ -23,7 +24,7 @@ class FavoriteRecipesAdapter(
     private var multiSelectionMode = false
 
     private lateinit var mActionMode: ActionMode
-    private lateinit var rootView: View
+    private var rootView: View? = null
 
     private var myViewHolders = arrayListOf<MyViewHolder>()
     private var multiSelectedRecipes = arrayListOf<FavoritesEntity>()
@@ -56,11 +57,18 @@ class FavoriteRecipesAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         myViewHolders.add(holder)
-        rootView = holder.itemView.rootView
+        setRootView(holder.itemView.rootView)
+
         val currentFavorite = favoriteEntities[position]
         holder.bind(currentFavorite)
         setOnSingleClickListener(holder, currentFavorite)
         setOnLongClickListener(holder, currentFavorite)
+    }
+
+    private fun setRootView(view: View) {
+        if (rootView == null) {
+            rootView = view
+        }
     }
 
     private fun setOnSingleClickListener(holder: MyViewHolder, favoritesEntity: FavoritesEntity) {
@@ -68,24 +76,32 @@ class FavoriteRecipesAdapter(
             if (multiSelectionMode) {
                 applySelection(holder, favoritesEntity)
             } else {
-                val action =
-                    FavoriteRecipeFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(
-                        favoritesEntity.result
-                    )
-                holder.itemView.findNavController().navigate(action)
+                toDetailRecipeActivity(holder.itemView, favoritesEntity.result)
             }
         }
+    }
+
+    private fun toDetailRecipeActivity(view: View, result: Result) {
+        val action =
+            FavoriteRecipeFragmentDirections.actionFavoriteRecipesFragmentToDetailsActivity(
+                result
+            )
+        view.findNavController().navigate(action)
     }
 
     private fun setOnLongClickListener(holder: MyViewHolder, favoritesEntity: FavoritesEntity) {
         holder.itemView.favoriteRecipesRowLayout.setOnLongClickListener {
             if (!multiSelectionMode) {
-                multiSelectionMode = true
-                requireActivity.startActionMode(this)
+                startActionMode()
                 applySelection(holder, favoritesEntity)
             }
             true
         }
+    }
+
+    private fun startActionMode() {
+        multiSelectionMode = true
+        requireActivity.startActionMode(this)
     }
 
     private fun applyStatusBarColor(color: Int) {
@@ -181,10 +197,16 @@ class FavoriteRecipesAdapter(
 
     private fun showDeletedSnack(message: String) {
         Snackbar.make(
-            rootView,
+            rootView!!,
             message,
             Snackbar.LENGTH_SHORT
         ).setAction("Ok") {}
             .show()
+    }
+
+    fun clearContextualActionMode() {
+        if (this::mActionMode.isInitialized) {
+            mActionMode.finish()
+        }
     }
 }
