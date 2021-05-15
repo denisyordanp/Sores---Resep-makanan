@@ -19,8 +19,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
-            android:visibility="visible"
+            android:visibility="invisible"
             app:cardCornerRadius="6dp"
+            readApiResponse3="@{mainViewModel.foodJokeResponse}"
+            readDatabase3="@{mainViewModel.readFoodJoke}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -51,22 +53,23 @@
             android:text="Error"
             android:textStyle="bold"
             android:visibility="invisible"
-            app:layout_constraintEnd_toEndOf="@+id/food_joke_erro_imageView"
-            app:layout_constraintStart_toStartOf="@+id/food_joke_erro_imageView"
-            app:layout_constraintTop_toBottomOf="@+id/food_joke_erro_imageView" />
+            app:layout_constraintEnd_toEndOf="@+id/food_joke_error_imageView"
+            app:layout_constraintStart_toStartOf="@+id/food_joke_error_imageView"
+            app:layout_constraintTop_toBottomOf="@+id/food_joke_error_imageView" />
 
         <ProgressBar
             android:id="@+id/food_joke_progressBar"
+            readApiResponse3="@{mainViewModel.foodJokeResponse}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
             android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/food_joke_erro_imageView"
+            android:id="@+id/food_joke_error_imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:alpha="0.5"

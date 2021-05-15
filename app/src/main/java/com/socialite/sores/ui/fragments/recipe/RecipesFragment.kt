@@ -1,7 +1,6 @@
 package com.socialite.sores.ui.fragments.recipe
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -107,7 +106,6 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()) {
-            Log.w("TESTINGDATA", "not null")
             searchApiData(query)
         }
         return true
