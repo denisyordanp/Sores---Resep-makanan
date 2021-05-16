@@ -69,14 +69,16 @@ class FoodJokeBinding {
                 }
 
                 is NetworkResult.Error -> {
-                    if(database != null) {
-                        if(database.isEmpty()) {
+                    if (database != null) {
+                        if (database.isEmpty()) {
                             view.visibility = View.VISIBLE
                             if (view is TextView) {
                                 view.text = apiResponse.message.toString()
                             }
                         }
                     }
+                }
+                else -> {
                 }
             }
         }

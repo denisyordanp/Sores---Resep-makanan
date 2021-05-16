@@ -198,8 +198,8 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
         binding.recycleView.showShimmer()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
