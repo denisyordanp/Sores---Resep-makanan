@@ -2,6 +2,7 @@ package com.socialite.sores.bindingAdapters
 
 import android.view.View
 import android.widget.ProgressBar
+import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.google.android.material.card.MaterialCardView
 import com.socialite.sores.data.database.entities.FoodJokeEntity
@@ -49,6 +50,31 @@ class FoodJokeBinding {
                         }
                         is MaterialCardView -> {
                             view.visibility = View.VISIBLE
+                        }
+                    }
+                }
+            }
+        }
+
+        @BindingAdapter("readApiResponse4", "readDatabase4", requireAll = true)
+        @JvmStatic
+        fun setErrorViewVisibility(
+            view: View,
+            apiResponse: NetworkResult<FoodJoke>?,
+            database: List<FoodJokeEntity>?
+        ) {
+            when(apiResponse) {
+                is NetworkResult.Success -> {
+                    view.visibility = View.INVISIBLE
+                }
+
+                is NetworkResult.Error -> {
+                    if(database != null) {
+                        if(database.isEmpty()) {
+                            view.visibility = View.VISIBLE
+                            if (view is TextView) {
+                                view.text = apiResponse.message.toString()
+                            }
                         }
                     }
                 }
