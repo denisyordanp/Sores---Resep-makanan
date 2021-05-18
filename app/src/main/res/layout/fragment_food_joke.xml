@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_food_joke_background_light">
+        android:background="@drawable/ic_food_joke_background">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/food_joke_cardView"
@@ -28,7 +28,8 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:strokeColor="@color/lightMediumGray"
+            app:strokeColor="@color/cardStrokeColor"
+            app:cardBackgroundColor="@color/cardBackgroundColor"
             app:strokeWidth="1dp">
 
             <TextView
@@ -38,7 +39,7 @@
                 android:layout_margin="16dp"
                 android:fontFamily="@font/courgette"
                 android:text="Percobaan text aja weh"
-                android:textColor="@color/dark"
+                android:textColor="@color/titleColor"
                 android:textSize="18sp" />
 
 

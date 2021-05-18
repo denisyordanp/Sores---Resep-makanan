@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/cardBackgroundColor">
 
     <TextView
         android:id="@+id/mealType_text"
@@ -13,7 +13,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="24dp"
         android:text="@string/meal_type"
-        android:textColor="@color/dark"
+        android:textColor="@color/titleColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -155,7 +155,7 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:text="@string/diet_type"
-        android:textColor="@color/dark"
+        android:textColor="@color/titleColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -249,6 +249,7 @@
     </HorizontalScrollView>
 
     <com.google.android.material.button.MaterialButton
+        style="@style/CustomButtonStyle"
         android:id="@+id/btn_rbs_apply"
         android:layout_width="match_parent"
         android:layout_height="60dp"

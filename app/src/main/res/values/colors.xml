@@ -16,19 +16,41 @@
     <color name="yellow">#FFC114</color>
     <color name="green">#00C980</color>
 
-    <!--    Custom Chip Color-->
+<!--    LIGHT THEME-->
+
+    <color name="backgroundColor">@color/lightGray</color>
+    <color name="placeHolderColor">@color/mediumGray</color>
+    <color name="itemColor">@color/darkGray</color>
+
+    // Custom Chip Color
     <color name="checkedChipBackgroundColor">#206200EA</color>
     <color name="chipBackgroundColor">@color/lightGray</color>
     <color name="checkedChipTextColor">@color/colorPrimary</color>
     <color name="chipTextColor">@color/darkGray</color>
 
-    <color name="actionBarBackgroundColor">@color/colorPrimaryDark</color>
-    <color name="strokeColor">@color/lightMediumGray</color>
+    // Custom Button Style
+    <color name="buttonBackgroundColor">@color/colorPrimary</color>
+    <color name="buttonTextColor">@color/white</color>
+
+    // Custom FloatingActionButton Style
+    <color name="fabBackgroundColor">@color/colorPrimary</color>
+    <color name="fabIconColor">@color/white</color>
+
+    // Custom CardView Style
+    <color name="cardStrokeColor">@color/lightMediumGray</color>
     <color name="cardBackgroundColor">@color/white</color>
     <color name="cardBackgroundLightColor">#206200EA</color>
     <color name="titleColor">@color/darker</color>
+    <color name="descriptionColor">@color/darkGray</color>
 
+    // Custom Header Style
     <color name="statusBarColor">@color/colorPrimaryDark</color>
     <color name="contextualStatusBarColor">@color/darker</color>
     <color name="contextualActionBarColor">@color/dark</color>
+    <color name="actionBarBackgroundColor">@color/colorPrimary</color>
+
+    // Custom Navigation Style
+    <color name="bottomNavBackground">@color/white</color>
+    <color name="bottomNavItemColor">@color/darkGray</color>
+    <color name="bottomNavCheckedItemColor">@color/colorPrimary</color>
 </resources>

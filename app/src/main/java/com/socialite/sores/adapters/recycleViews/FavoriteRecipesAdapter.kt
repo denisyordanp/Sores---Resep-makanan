@@ -9,12 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.socialite.sores.R
 import com.socialite.sores.data.database.entities.FavoritesEntity
-import com.socialite.sores.databinding.FavoriteRecipesRowLayoutBinding
+import com.socialite.sores.databinding.RecipesRowLayoutBinding
 import com.socialite.sores.models.Result
 import com.socialite.sores.ui.fragments.favorites.FavoriteRecipeFragmentDirections
 import com.socialite.sores.util.RecipesDiffUtil
 import com.socialite.sores.viewModels.MainViewModel
-import kotlinx.android.synthetic.main.favorite_recipes_row_layout.view.*
+import kotlinx.android.synthetic.main.recipes_row_layout.view.*
 
 class FavoriteRecipesAdapter(
     private val requireActivity: FragmentActivity,
@@ -31,12 +31,12 @@ class FavoriteRecipesAdapter(
     private var favoriteEntities = emptyList<FavoritesEntity>()
 
     class MyViewHolder(
-        private val _binding: FavoriteRecipesRowLayoutBinding,
+        private val _binding: RecipesRowLayoutBinding,
     ) :
         RecyclerView.ViewHolder(_binding.root) {
 
         fun bind(favoritesEntity: FavoritesEntity) {
-            _binding.favoriteEntity = favoritesEntity
+            _binding.result = favoritesEntity.result
             _binding.executePendingBindings()
         }
 
@@ -44,7 +44,7 @@ class FavoriteRecipesAdapter(
 
             fun from(parent: ViewGroup): MyViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = FavoriteRecipesRowLayoutBinding.inflate(layoutInflater, parent, false)
+                val binding = RecipesRowLayoutBinding.inflate(layoutInflater, parent, false)
                 return MyViewHolder(binding)
             }
 
@@ -72,7 +72,7 @@ class FavoriteRecipesAdapter(
     }
 
     private fun setOnSingleClickListener(holder: MyViewHolder, favoritesEntity: FavoritesEntity) {
-        holder.itemView.favoriteRecipesRowLayout.setOnClickListener {
+        holder.itemView.recipesRowLayout.setOnClickListener {
             if (multiSelectionMode) {
                 applySelection(holder, favoritesEntity)
             } else {
@@ -90,7 +90,7 @@ class FavoriteRecipesAdapter(
     }
 
     private fun setOnLongClickListener(holder: MyViewHolder, favoritesEntity: FavoritesEntity) {
-        holder.itemView.favoriteRecipesRowLayout.setOnLongClickListener {
+        holder.itemView.recipesRowLayout.setOnLongClickListener {
             if (!multiSelectionMode) {
                 startActionMode()
                 applySelection(holder, favoritesEntity)
@@ -112,7 +112,7 @@ class FavoriteRecipesAdapter(
     private fun applySelection(holder: MyViewHolder, currentRecipe: FavoritesEntity) {
         if (multiSelectedRecipes.contains(currentRecipe)) {
             multiSelectedRecipes.remove(currentRecipe)
-            changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.strokeColor)
+            changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.cardStrokeColor)
         } else {
             multiSelectedRecipes.add(currentRecipe)
             changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.colorPrimary)
@@ -133,10 +133,10 @@ class FavoriteRecipesAdapter(
     }
 
     private fun changeRecipeStyle(holder: MyViewHolder, backgroundColor: Int, strokeColor: Int) {
-        holder.itemView.favoriteRecipesRowLayout.setBackgroundColor(
+        holder.itemView.row_cardView.setCardBackgroundColor(
             ContextCompat.getColor(requireActivity, backgroundColor)
         )
-        holder.itemView.favorite_row_cardView.strokeColor =
+        holder.itemView.row_cardView.strokeColor =
             ContextCompat.getColor(requireActivity, strokeColor)
     }
 
@@ -174,7 +174,7 @@ class FavoriteRecipesAdapter(
 
     private fun setOffMultiSelectionMode() {
         myViewHolders.forEach {
-            changeRecipeStyle(it, R.color.cardBackgroundColor, R.color.strokeColor)
+            changeRecipeStyle(it, R.color.cardBackgroundColor, R.color.cardStrokeColor)
         }
         resetMultiSelections()
     }

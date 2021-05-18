@@ -5,7 +5,7 @@ import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -33,31 +33,31 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     private var _binding: FragmentRecipesBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var recipesViewModel: RecipesViewModel
-    private lateinit var mainViewModel: MainViewModel
+    private val recipesViewModel: RecipesViewModel by viewModels()
+    private val mainViewModel: MainViewModel by viewModels()
 
     private val mAdapter by lazy { RecipesAdapter() }
 
     private lateinit var networkListener: NetworkListener
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        mainViewModel = ViewModelProvider(requireActivity()).get(MainViewModel::class.java)
-        recipesViewModel = ViewModelProvider(requireActivity()).get(RecipesViewModel::class.java)
-    }
-
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?,
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentRecipesBinding.inflate(inflater, container, false)
 
+        setViewBinding()
         setupRecycleView()
         setHasOptionsMenu(true)
         setUpViewModel()
         setUpLListener()
 
         return binding.root
+    }
+
+    private fun setViewBinding() {
+        binding.lifecycleOwner = this
+        binding.viewModel = mainViewModel
     }
 
     private fun setupRecycleView() {
@@ -76,9 +76,6 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun setUpViewModel() {
-        binding.lifecycleOwner = this
-        binding.viewModel = mainViewModel
-
         recipesViewModel.readIsBackOnline.observe(viewLifecycleOwner) {
             recipesViewModel.isBackOnline = it
         }

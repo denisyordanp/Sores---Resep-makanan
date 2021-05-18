@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/strokeColor"
+        app:strokeColor="@color/cardStrokeColor"
         app:strokeWidth="1dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +31,7 @@
                 android:id="@+id/white_background"
                 android:layout_width="120dp"
                 android:layout_height="0dp"
+                android:background="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -53,7 +54,6 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="12dp"
                 android:fontFamily="@font/courgette"
-                android:text="Name"
                 android:textColor="@color/titleColor"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -66,7 +66,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="100"
+                android:textColor="@color/descriptionColor"
                 app:layout_constraintStart_toStartOf="@+id/ingredient_name"
                 app:layout_constraintTop_toBottomOf="@+id/ingredient_name" />
 
@@ -75,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:text="Grams"
+                android:textColor="@color/descriptionColor"
                 app:layout_constraintBottom_toBottomOf="@+id/ingredient_amount"
                 app:layout_constraintStart_toEndOf="@+id/ingredient_amount"
                 app:layout_constraintTop_toTopOf="@+id/ingredient_amount" />
@@ -85,7 +85,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:text="Consistency"
+                android:textColor="@color/descriptionColor"
                 app:layout_constraintEnd_toEndOf="@+id/ingredient_name"
                 app:layout_constraintStart_toStartOf="@+id/ingredient_amount"
                 app:layout_constraintTop_toBottomOf="@+id/ingredient_amount" />
@@ -96,7 +96,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="12dp"
-                android:text="Original"
+                android:textColor="@color/descriptionColor"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/ingredient_consistency"
                 app:layout_constraintStart_toStartOf="@+id/ingredient_consistency"

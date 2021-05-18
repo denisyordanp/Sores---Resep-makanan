@@ -16,21 +16,33 @@ class IngredientsAdapter: RecyclerView.Adapter<IngredientsAdapter.MyViewHolder>(
 
     private var ingredientsList = emptyList<ExtendedIngredient>()
 
-    class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        fun setTextDataToView(ingredients: ExtendedIngredient) {
+            itemView.ingredient_name.text = ingredients.name
+            itemView.ingredient_amount.text = ingredients.amount.toString()
+            itemView.ingredient_unit.text = ingredients.unit
+            itemView.ingredient_consistency.text = ingredients.consistency
+            itemView.ingredient_original.text = ingredients.original
+        }
+
+        fun setImageDataToView(ingredients: ExtendedIngredient) {
+            itemView.ingredient_imageView.load(BASE_IMAGE_URL + ingredients.image) {
+                crossfade(600)
+                error(R.drawable.ic_error_placeholder)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.ingredients_row_layout, parent, false))
+        return MyViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.ingredients_row_layout, parent, false)
+        )
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.itemView.ingredient_imageView.load(BASE_IMAGE_URL + ingredientsList[position].image) {
-            crossfade(600)
-            error(R.drawable.ic_error_placeholder)
-        }
-        holder.itemView.ingredient_name.text = ingredientsList[position].name
-        holder.itemView.ingredient_unit.text = ingredientsList[position].unit
-        holder.itemView.ingredient_consistency.text = ingredientsList[position].consistency
-        holder.itemView.ingredient_original.text = ingredientsList[position].original
+        holder.setImageDataToView(ingredientsList[position])
+        holder.setTextDataToView(ingredientsList[position])
     }
 
     override fun getItemCount(): Int {
