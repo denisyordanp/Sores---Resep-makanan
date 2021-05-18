@@ -6,23 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
-import com.socialite.sores.R
+import com.socialite.sores.databinding.FragmentInstructionsBinding
 import com.socialite.sores.models.Result
 import com.socialite.sores.ui.DetailsActivity
-import kotlinx.android.synthetic.main.fragment_instructions.view.*
 
 class InstructionsFragment : Fragment() {
+
+    private var _binding: FragmentInstructionsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_instructions, container, false)
+    ): View {
+        _binding = FragmentInstructionsBinding.inflate(inflater, container, false)
 
         val result = bundle
-        setWebView(view, result)
+        setWebView(result)
 
-        return view
+        return binding.root
     }
 
     private val bundle: Result?
@@ -31,11 +33,16 @@ class InstructionsFragment : Fragment() {
             return args?.getParcelable(DetailsActivity.RESULT_BUNDLE_KEY)
         }
 
-    private fun setWebView(view: View, result: Result?) {
-        view.instructions_webView.webViewClient = object : WebViewClient() {}
+    private fun setWebView(result: Result?) {
+        binding.instructionsWebView.webViewClient = object : WebViewClient() {}
         val websiteUrl = result?.sourceUrl
         if (!websiteUrl.isNullOrEmpty()) {
-            view.instructions_webView.loadUrl(websiteUrl)
+            binding.instructionsWebView.loadUrl(websiteUrl)
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

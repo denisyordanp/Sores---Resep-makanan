@@ -10,10 +10,10 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.socialite.sores.R
+import com.socialite.sores.databinding.ActivityMainBinding
 import com.socialite.sores.util.NetworkListener
 import com.socialite.sores.viewModels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -22,6 +22,8 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class  MainActivity : AppCompatActivity() {
 
+    private lateinit var _binding: ActivityMainBinding
+
     private val recipesViewModel: RecipesViewModel by viewModels()
     private lateinit var navController: NavController
 
@@ -29,8 +31,9 @@ class  MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setTheme(R.style.Theme_SoresResepMakanan)
-        setContentView(R.layout.activity_main)
+        setContentView(_binding.root)
 
         navController = findNavController(R.id.navHostFragment)
 
@@ -39,7 +42,7 @@ class  MainActivity : AppCompatActivity() {
     }
 
     private fun setUpNavigation() {
-        bottomNavigationView.setupWithNavController(navController)
+        _binding.bottomNavigationView.setupWithNavController(navController)
         setupActionBarWithNavController(navController, getAppBarConfigurations())
     }
 

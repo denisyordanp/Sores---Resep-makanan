@@ -56,12 +56,6 @@ class FavoriteRecipeFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-        mAdapter.clearContextualActionMode()
-    }
-
     private fun showDeletedAllFavoriteRecipes() {
         Snackbar.make(
             binding.root,
@@ -69,5 +63,11 @@ class FavoriteRecipeFragment : Fragment() {
             Snackbar.LENGTH_SHORT
         ).setAction("Ok") {}
             .show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        mAdapter.clearContextualActionMode()
     }
 }

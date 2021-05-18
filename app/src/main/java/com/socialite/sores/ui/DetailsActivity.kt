@@ -13,15 +13,17 @@ import com.google.android.material.snackbar.Snackbar
 import com.socialite.sores.R
 import com.socialite.sores.adapters.viewPagers.PagerAdapter
 import com.socialite.sores.data.database.entities.FavoritesEntity
+import com.socialite.sores.databinding.ActivityDetailsBinding
 import com.socialite.sores.ui.fragments.ingredients.IngredientsFragment
 import com.socialite.sores.ui.fragments.instructions.InstructionsFragment
 import com.socialite.sores.ui.fragments.overview.OverviewFragment
 import com.socialite.sores.viewModels.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.activity_details.*
 
 @AndroidEntryPoint
 class DetailsActivity : AppCompatActivity() {
+
+    private lateinit var _binding: ActivityDetailsBinding
 
     private val args by navArgs<DetailsActivityArgs>()
     private val mainViewModel: MainViewModel by viewModels()
@@ -35,15 +37,16 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_details)
+        _binding = ActivityDetailsBinding.inflate(layoutInflater)
+        setContentView(_binding.root)
 
         setActivityView()
         setUpViewPager()
     }
 
     private fun setActivityView() {
-        setSupportActionBar(toolbar)
-        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
+        setSupportActionBar(_binding.toolbar)
+        _binding.toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white))
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
@@ -96,8 +99,8 @@ class DetailsActivity : AppCompatActivity() {
             supportFragmentManager
         )
 
-        viewPager.adapter = adapter
-        tabLayout.setupWithViewPager(viewPager)
+        _binding.viewPager.adapter = adapter
+        _binding.tabLayout.setupWithViewPager(_binding.viewPager)
     }
 
     private val fragments: ArrayList<Fragment>
@@ -160,7 +163,7 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun showSnackBar(message: String) {
         Snackbar.make(
-            detailsLayout,
+            _binding.detailsLayout,
             message,
             Snackbar.LENGTH_SHORT
         ).setAction("Okay") {}
