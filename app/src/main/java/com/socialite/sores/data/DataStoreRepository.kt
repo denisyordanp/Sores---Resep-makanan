@@ -1,8 +1,8 @@
 package com.socialite.sores.data
 
 import android.content.Context
-import androidx.datastore.DataStore
 import androidx.datastore.preferences.*
+import androidx.datastore.preferences.core.*
 import com.socialite.sores.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.socialite.sores.util.Constants.Companion.DEFAULT_MEAL_TYPE
 import com.socialite.sores.util.Constants.Companion.PREFERENCE_BACK_ONLINE
@@ -23,16 +23,17 @@ import javax.inject.Inject
 class DataStoreRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
     private object PreferenceKeys {
-        val selectedMealType = preferencesKey<String>(PREFERENCE_MEAL_TYPE)
-        val selectedMealTypeId = preferencesKey<Int>(PREFERENCE_MEAL_TYPE_ID)
-        val selectedDietType = preferencesKey<String>(PREFERENCE_DIET_TYPE)
-        val selectedDietTypeId = preferencesKey<Int>(PREFERENCE_DIET_TYPE_ID)
-        val isBackOnline = preferencesKey<Boolean>(PREFERENCE_BACK_ONLINE)
+        val selectedMealType = stringPreferencesKey(PREFERENCE_MEAL_TYPE)
+        val selectedMealTypeId = intPreferencesKey(PREFERENCE_MEAL_TYPE_ID)
+        val selectedDietType = stringPreferencesKey(PREFERENCE_DIET_TYPE)
+        val selectedDietTypeId = intPreferencesKey(PREFERENCE_DIET_TYPE_ID)
+        val isBackOnline = booleanPreferencesKey(PREFERENCE_BACK_ONLINE)
     }
 
-    private val dataStore: DataStore<Preferences> = context.createDataStore(
-        name = PREFERENCE_NAME
-    )
+//    private val dataStore: DataStore<Preferences> = context.createDataStore(
+//        name = PREFERENCE_NAME
+//    )
+    private val Context.dataStore by preferencesDataStore(PREFERENCE_NAME)
 
     suspend fun saveMealAndDietType(
         mealType: String,
@@ -40,7 +41,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
         dietType: String,
         dietTypeId: Int
     ) {
-        dataStore.edit { preferences ->
+        context.dataStore.edit { preferences ->
             preferences[PreferenceKeys.selectedMealType] = mealType
             preferences[PreferenceKeys.selectedMealTypeId] = mealTypeId
             preferences[PreferenceKeys.selectedDietType] = dietType
@@ -49,12 +50,12 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
     }
 
     suspend fun saveIsBackOnline(isBackOnline: Boolean) {
-        dataStore.edit { preference ->
+        context.dataStore.edit { preference ->
             preference[PreferenceKeys.isBackOnline] = isBackOnline
         }
     }
 
-    val readMelaAndDietType: Flow<MealAndDietType> = dataStore.data
+    val readMelaAndDietType: Flow<MealAndDietType> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
@@ -76,7 +77,7 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
             )
         }
 
-    val readIsBackOnline: Flow<Boolean> = dataStore.data
+    val readIsBackOnline: Flow<Boolean> = context.dataStore.data
         .catch { exception ->
             if (exception is IOException) {
                 emit(emptyPreferences())
