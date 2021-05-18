@@ -31,8 +31,10 @@
             app:strokeWidth="1dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container_background_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@color/cardBackgroundColor">
 
                 <TextView
                     android:id="@+id/title_textView"

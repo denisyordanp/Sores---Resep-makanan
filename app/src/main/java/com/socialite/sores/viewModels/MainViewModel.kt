@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.socialite.sores.data.Repository
 import com.socialite.sores.data.database.entities.FavoritesEntity
@@ -13,14 +12,17 @@ import com.socialite.sores.data.database.entities.RecipesEntity
 import com.socialite.sores.models.FoodJoke
 import com.socialite.sores.models.FoodRecipe
 import com.socialite.sores.util.NetworkResult
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Response
+import javax.inject.Inject
 
-class MainViewModel @ViewModelInject constructor(
-        private val repository: Repository,
-        application: Application
-): AndroidViewModel(application) {
+@HiltViewModel
+class MainViewModel @Inject constructor(
+    private val repository: Repository,
+    application: Application
+) : AndroidViewModel(application) {
 
     /** ROOM DATABASE */
     val readRecipes: LiveData<List<RecipesEntity>> = repository.local.readRecipes().asLiveData()

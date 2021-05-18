@@ -59,6 +59,7 @@ class FavoriteRecipesAdapter(
 
         val currentFavorite = favoriteEntities[position]
         holder.bind(currentFavorite)
+        saveItemStateOnScroll(currentFavorite, holder)
         setOnSingleClickListener(holder, currentFavorite)
         setOnLongClickListener(holder, currentFavorite)
     }
@@ -107,6 +108,14 @@ class FavoriteRecipesAdapter(
             ContextCompat.getColor(requireActivity, color)
     }
 
+    private fun saveItemStateOnScroll(currentRecipe: FavoritesEntity, holder: MyViewHolder) {
+        if (multiSelectedRecipes.contains(currentRecipe)) {
+            changeRecipeStyle(holder, R.color.cardBackgroundLightColor, R.color.colorPrimary)
+        } else {
+            changeRecipeStyle(holder, R.color.cardBackgroundColor, R.color.cardStrokeColor)
+        }
+    }
+
     private fun applySelection(holder: MyViewHolder, currentRecipe: FavoritesEntity) {
         if (multiSelectedRecipes.contains(currentRecipe)) {
             multiSelectedRecipes.remove(currentRecipe)
@@ -120,7 +129,10 @@ class FavoriteRecipesAdapter(
 
     private fun applyActionModeTitle() {
         when(val size = multiSelectedRecipes.size) {
-            0 -> mActionMode.finish()
+            0 -> {
+                mActionMode.finish()
+                multiSelectionMode = false
+            }
             1 -> {
                 mActionMode.title = "1 item selected"
             }
@@ -131,7 +143,7 @@ class FavoriteRecipesAdapter(
     }
 
     private fun changeRecipeStyle(holder: MyViewHolder, backgroundColor: Int, strokeColor: Int) {
-        holder._binding.rowCardView.setCardBackgroundColor(
+        holder._binding.containerBackgroundLayout.setBackgroundColor(
             ContextCompat.getColor(requireActivity, backgroundColor)
         )
         holder._binding.rowCardView.strokeColor =

@@ -32,6 +32,8 @@ class DetailsActivity : AppCompatActivity() {
     private var recipeSaved = false
     private var savedRecipeId = 0
 
+    private lateinit var menuItem: MenuItem
+
     companion object {
         const val RESULT_BUNDLE_KEY = "resultBundle"
     }
@@ -53,8 +55,8 @@ class DetailsActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.details_menu, menu)
-        val menuItem = menu?.findItem(R.id.save_to_favorite_menu)
-        checkFavoritesRecipe(menuItem!!)
+        menuItem = menu!!.findItem(R.id.save_to_favorite_menu)
+        checkFavoritesRecipe(menuItem)
         return true
     }
 
@@ -67,8 +69,6 @@ class DetailsActivity : AppCompatActivity() {
                         recipeSaved = true
                         savedRecipeId = favorite.id
                         return@observe
-                    } else {
-                        changeFavoriteIcon(menuItem, R.color.white)
                     }
                 }
             } catch (e: Exception) {
@@ -172,5 +172,10 @@ class DetailsActivity : AppCompatActivity() {
             Snackbar.LENGTH_SHORT
         ).setAction("Okay") {}
             .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        changeFavoriteIcon(menuItem, R.color.white)
     }
 }

@@ -10,13 +10,13 @@ data class Result(
     @SerializedName("aggregateLikes")
     val aggregateLikes: Int?,
     @SerializedName("cheap")
-    val cheap: Boolean?,
+    val cheap: Boolean,
     @SerializedName("dairyFree")
-    val dairyFree: Boolean?,
+    val dairyFree: Boolean,
     @SerializedName("extendedIngredients")
     val extendedIngredients: @RawValue List<ExtendedIngredient>?,
     @SerializedName("glutenFree")
-    val glutenFree: Boolean?,
+    val glutenFree: Boolean,
     @SerializedName("id")
     val id: Int?,
     @SerializedName("image")
@@ -32,9 +32,9 @@ data class Result(
     @SerializedName("title")
     val title: String?,
     @SerializedName("vegan")
-    val vegan: Boolean?,
+    val vegan: Boolean,
     @SerializedName("vegetarian")
-    val vegetarian: Boolean?,
+    val vegetarian: Boolean,
     @SerializedName("veryHealthy")
-    val veryHealthy: Boolean?,
+    val veryHealthy: Boolean,
 ): Parcelable

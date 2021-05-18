@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import coil.load
 import com.socialite.sores.R
+import com.socialite.sores.bindingAdapters.RecipeRowBinding
 import com.socialite.sores.databinding.FragmentOverviewBinding
 import com.socialite.sores.models.Result
 import com.socialite.sores.ui.DetailsActivity
-import org.jsoup.Jsoup
 
 class OverviewFragment : Fragment() {
 
@@ -31,52 +33,34 @@ class OverviewFragment : Fragment() {
         return binding.root
     }
 
-    private val bundle: Result?
+    private val bundle: Result
         get() {
             val args = arguments
-            return args?.getParcelable(DetailsActivity.RESULT_BUNDLE_KEY)
+            return args!!.getParcelable<Result>(DetailsActivity.RESULT_BUNDLE_KEY) as Result
         }
 
-    private fun setFragmentView(result: Result?) {
-        binding.mainOverviewImageView.load(result?.image)
-        binding.titleOverviewTextView.text = result?.title
-        binding.likesOverviewTextView.text = result?.aggregateLikes.toString()
-        binding.timeOverviewTextView.text = result?.readyInMinutes.toString()
-        result?.summary.let {
-            val summary = Jsoup.parse(it).text()
-            binding.summaryTextView.text = summary
-        }
+    private fun setFragmentView(result: Result) {
+        binding.mainOverviewImageView.load(result.image)
+        binding.titleOverviewTextView.text = result.title
+        binding.likesOverviewTextView.text = result.aggregateLikes.toString()
+        binding.timeOverviewTextView.text = result.readyInMinutes.toString()
+
+        RecipeRowBinding.parseHtml(binding.summaryTextView, result.summary)
     }
 
-    private fun setVeganType(result: Result?) {
-        if (result?.vegetarian == true) {
-            binding.vegetarianOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.vegetarianOverviewTextView.setTextColor(selectedTypeColor)
-        }
+    private fun setVeganType(result: Result) {
+        updateColors(result.vegetarian, binding.vegetarianOverviewTextView, binding.vegetarianOverviewImageView)
+        updateColors(result.vegan, binding.veganOverviewTextView, binding.veganOverviewImageView)
+        updateColors(result.glutenFree, binding.glutenFreeOverviewTextView, binding.glutenFreeOverviewImageView)
+        updateColors(result.dairyFree, binding.dairyFreeOverviewTextView, binding.dairyFreeOverviewImageView)
+        updateColors(result.veryHealthy, binding.healthyOverviewTextView, binding.healthyOverviewImageView)
+        updateColors(result.cheap, binding.cheapOverviewTextView, binding.cheapOverviewImageView)
+    }
 
-        if (result?.vegan == true) {
-            binding.veganOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.veganOverviewTextView.setTextColor(selectedTypeColor)
-        }
-
-        if (result?.glutenFree == true) {
-            binding.glutenFreeOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.glutenFreeOverviewTextView.setTextColor(selectedTypeColor)
-        }
-
-        if (result?.dairyFree == true) {
-            binding.dairyFreeOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.dairyFreeOverviewTextView.setTextColor(selectedTypeColor)
-        }
-
-        if (result?.veryHealthy == true) {
-            binding.healthyOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.healthyOverviewTextView.setTextColor(selectedTypeColor)
-        }
-
-        if (result?.cheap == true) {
-            binding.cheapOverviewImageView.setColorFilter(selectedTypeColor)
-            binding.cheapOverviewTextView.setTextColor(selectedTypeColor)
+    private fun updateColors(isOn: Boolean, textView: TextView, imageView: ImageView) {
+        if (isOn) {
+            imageView.setColorFilter(selectedTypeColor)
+            textView.setTextColor(selectedTypeColor)
         }
     }
 
