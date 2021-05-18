@@ -1,8 +1,8 @@
 package com.socialite.sores.data
 
 import android.content.Context
-import androidx.datastore.preferences.*
 import androidx.datastore.preferences.core.*
+import androidx.datastore.preferences.preferencesDataStore
 import com.socialite.sores.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.socialite.sores.util.Constants.Companion.DEFAULT_MEAL_TYPE
 import com.socialite.sores.util.Constants.Companion.PREFERENCE_BACK_ONLINE
@@ -22,6 +22,10 @@ import javax.inject.Inject
 @ActivityRetainedScoped
 class DataStoreRepository @Inject constructor(@ApplicationContext private val context: Context) {
 
+    companion object {
+        private val Context.dataStore by preferencesDataStore(PREFERENCE_NAME)
+    }
+
     private object PreferenceKeys {
         val selectedMealType = stringPreferencesKey(PREFERENCE_MEAL_TYPE)
         val selectedMealTypeId = intPreferencesKey(PREFERENCE_MEAL_TYPE_ID)
@@ -29,11 +33,6 @@ class DataStoreRepository @Inject constructor(@ApplicationContext private val co
         val selectedDietTypeId = intPreferencesKey(PREFERENCE_DIET_TYPE_ID)
         val isBackOnline = booleanPreferencesKey(PREFERENCE_BACK_ONLINE)
     }
-
-//    private val dataStore: DataStore<Preferences> = context.createDataStore(
-//        name = PREFERENCE_NAME
-//    )
-    private val Context.dataStore by preferencesDataStore(PREFERENCE_NAME)
 
     suspend fun saveMealAndDietType(
         mealType: String,

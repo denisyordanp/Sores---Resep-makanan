@@ -79,7 +79,8 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
         lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
             networkListener.checkNetworkAvailability(requireContext())
-                .collect {
+                .collect { status ->
+                    recipesViewModel.isNetworkAvailable = status
                     readDatabase()
                 }
         }

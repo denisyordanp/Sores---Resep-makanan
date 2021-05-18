@@ -54,8 +54,7 @@ class  MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             networkListener = NetworkListener()
             networkListener.checkNetworkAvailability(this@MainActivity)
-                .collect { status ->
-                    recipesViewModel.isNetworkAvailable = status
+                .collect {
                     recipesViewModel.showNetworkStatus()
                 }
         }

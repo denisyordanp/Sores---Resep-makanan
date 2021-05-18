@@ -15,8 +15,10 @@ import com.socialite.sores.databinding.RecipeBottomSheetBinding
 import com.socialite.sores.util.Constants.Companion.DEFAULT_DIET_TYPE
 import com.socialite.sores.util.Constants.Companion.DEFAULT_MEAL_TYPE
 import com.socialite.sores.viewModels.RecipesViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class RecipeBottomSheet : BottomSheetDialogFragment() {
 
     private var _binding: RecipeBottomSheetBinding? = null
