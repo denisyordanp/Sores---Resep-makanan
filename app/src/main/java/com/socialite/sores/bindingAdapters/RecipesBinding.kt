@@ -3,6 +3,7 @@ package com.socialite.sores.bindingAdapters
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
 import com.socialite.sores.data.database.entities.RecipesEntity
 import com.socialite.sores.models.FoodRecipe
@@ -12,40 +13,21 @@ class RecipesBinding {
 
     companion object {
 
-        @BindingAdapter("imageResponse", "imageDatabase", requireAll = true)
+        @BindingAdapter("readApiResponse", "readDatabase", requireAll = true)
         @JvmStatic
-        fun errorImageViewVisibility(
-            imageView: ImageView,
+        fun handleReadDataErrors(
+            view: View,
             apiResponse: NetworkResult<FoodRecipe>?,
             database: List<RecipesEntity>?
         ) {
 
-            when{
-                apiResponse is NetworkResult.Error && database.isNullOrEmpty() -> {
-                    imageView.visibility = View.VISIBLE
+            when (view) {
+                is ImageView -> {
+                    view.isVisible = apiResponse is NetworkResult.Error && database.isNullOrEmpty()
                 }
-                else -> {
-                    imageView.visibility = View.INVISIBLE
-                }
-            }
-
-        }
-
-        @BindingAdapter("textResponse", "textDatabase", requireAll = true)
-        @JvmStatic
-        fun errorTextViewVisibility(
-            textView: TextView,
-            apiResponse: NetworkResult<FoodRecipe>?,
-            database: List<RecipesEntity>?
-        ) {
-
-            when{
-                apiResponse is NetworkResult.Error && database.isNullOrEmpty() -> {
-                    textView.visibility = View.VISIBLE
-                    textView.text = apiResponse.message.toString()
-                }
-                else -> {
-                    textView.visibility = View.INVISIBLE
+                is TextView -> {
+                    view.isVisible = apiResponse is NetworkResult.Error && database.isNullOrEmpty()
+                    view.text = apiResponse?.message.toString()
                 }
             }
 
