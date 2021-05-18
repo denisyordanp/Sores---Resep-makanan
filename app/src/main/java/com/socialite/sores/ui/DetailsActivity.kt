@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.navArgs
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayoutMediator
 import com.socialite.sores.R
 import com.socialite.sores.adapters.viewPagers.PagerAdapter
 import com.socialite.sores.data.database.entities.FavoritesEntity
@@ -92,15 +93,18 @@ class DetailsActivity : AppCompatActivity() {
 
     private fun setUpViewPager() {
         val myBundle = bundle
-        val adapter = PagerAdapter(
+        val pagerAdapter = PagerAdapter(
             myBundle,
             fragments,
-            titles,
-            supportFragmentManager
+            this
         )
 
-        _binding.viewPager.adapter = adapter
-        _binding.tabLayout.setupWithViewPager(_binding.viewPager)
+        _binding.detailsViewPager2.apply {
+            adapter = pagerAdapter
+        }
+        TabLayoutMediator(_binding.tabLayout, _binding.detailsViewPager2) { tab, position ->
+            tab.text = titles[position]
+        }.attach()
     }
 
     private val fragments: ArrayList<Fragment>
