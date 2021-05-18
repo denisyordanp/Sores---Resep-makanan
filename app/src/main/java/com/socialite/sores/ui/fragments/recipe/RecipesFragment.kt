@@ -76,16 +76,10 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     }
 
     private fun setUpViewModel() {
-        recipesViewModel.readIsBackOnline.observe(viewLifecycleOwner) {
-            recipesViewModel.isBackOnline = it
-        }
-
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             networkListener = NetworkListener()
             networkListener.checkNetworkAvailability(requireContext())
-                .collect { status ->
-                    recipesViewModel.isNetworkAvailable = status
-                    recipesViewModel.showNetworkStatus()
+                .collect {
                     readDatabase()
                 }
         }
