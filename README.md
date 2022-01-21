@@ -11,3 +11,5 @@ Visit this App on <a href="https://play.google.com/store/apps/details?id=com.soc
 - Recipe Ingredients
 - Save Recipes
 - Food Joke
+
+> For personal learning purpose
