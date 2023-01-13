@@ -69,11 +69,16 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
+    //App Center
+    implementation "com.microsoft.appcenter:appcenter-analytics:4.4.5"
+    implementation "com.microsoft.appcenter:appcenter-crashes:4.4.5"
+
     // Room components
     implementation "androidx.room:room-runtime:2.2.5"
     kapt "androidx.room:room-compiler:2.2.5"
     implementation "androidx.room:room-ktx:2.2.5"
     androidTestImplementation "androidx.room:room-testing:2.2.5"
+    kapt 'org.xerial:sqlite-jdbc:3.36.0.1'
 
     // Data binding
     kapt "com.android.databinding:compiler:3.2.0-alpha10"
