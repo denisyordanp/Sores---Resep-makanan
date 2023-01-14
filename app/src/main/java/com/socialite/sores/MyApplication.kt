@@ -13,7 +13,7 @@ class MyApplication: Application() {
         super.onCreate()
 
         AppCenter.start(
-            this, "2891441a-5325-4e83-9ea5-434bc56afbb7",
+            this, "ed558f17-9484-4ff1-bede-5a7eb48efe95",
             Analytics::class.java, Crashes::class.java
         )
     }
