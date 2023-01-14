@@ -1,4 +1,4 @@
-[![Build status](https://build.appcenter.ms/v0.1/apps/e99f4308-b8d8-4b7f-b3ea-9e4b2a6328a2/branches/dev/badge)](https://appcenter.ms)
+[![Build status](https://build.appcenter.ms/v0.1/apps/063c6973-9c19-44d6-bc4a-cbb46494c90b/branches/dev/badge)](https://appcenter.ms)
 
 # Sores - Free Food Recipe
 ## Ongoing Project
