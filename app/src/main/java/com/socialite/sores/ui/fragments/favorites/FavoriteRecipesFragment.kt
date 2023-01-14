@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import com.microsoft.appcenter.analytics.Analytics
 import com.socialite.sores.R
 import com.socialite.sores.adapters.recycleViews.FavoriteRecipesAdapter
 import com.socialite.sores.databinding.FragmentFavoriteRecipesBinding
@@ -45,6 +46,7 @@ class FavoriteRecipeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.delete_all_favorite_recipe) {
+            Analytics.trackEvent("Favorite Options Button: Clicked")
             mainViewModel.deleteAllFavoriteRecipes()
             showDeletedAllFavoriteRecipes()
         }
