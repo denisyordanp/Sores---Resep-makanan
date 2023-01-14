@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.microsoft.appcenter.analytics.Analytics
 import com.socialite.sores.R
 import com.socialite.sores.databinding.FragmentFoodJokeBinding
 import com.socialite.sores.util.Constants.Companion.API_KEY
@@ -49,6 +50,7 @@ class FoodJokeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.food_joke_share_menu) {
+            Analytics.trackEvent("Share Food Joke Button: Clicked")
             val shareIntent = Intent().apply {
                 this.action = Intent.ACTION_SEND
                 this.putExtra(Intent.EXTRA_TEXT, foodJoke)

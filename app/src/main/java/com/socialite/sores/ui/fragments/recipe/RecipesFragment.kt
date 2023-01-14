@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.microsoft.appcenter.analytics.Analytics
 import com.socialite.sores.R
 import com.socialite.sores.adapters.recycleViews.RecipesAdapter
 import com.socialite.sores.databinding.FragmentRecipesBinding
@@ -89,6 +90,7 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
     private fun setUpLListener() {
         binding.recipesFab.setOnClickListener {
             if (recipesViewModel.isNetworkAvailable) {
+                Analytics.trackEvent("Floating Action Button: Clicked")
                 findNavController().navigate(R.id.action_recipesFragment_to_recipeBottomSheet)
             } else {
                 recipesViewModel.showNetworkStatus()
@@ -98,6 +100,9 @@ class RecipeFragment : Fragment(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         if (!query.isNullOrEmpty()) {
+            Analytics.trackEvent("Search recipes: Submitted", hashMapOf(
+                Pair("query", query)
+            ))
             searchApiData(query)
         }
         return true
