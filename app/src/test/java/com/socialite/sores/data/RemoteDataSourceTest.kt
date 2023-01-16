@@ -19,7 +19,7 @@ class RemoteDataSourceTest {
     @Test
     fun `response should error`() {
         val dummyResponse = Response.error<FoodRecipe>(
-            400,
+            300,
             ResponseBody.create(null, "")
         )
 
