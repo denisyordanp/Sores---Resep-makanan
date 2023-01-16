@@ -5,7 +5,7 @@
     <data>
         <variable
             name="mainViewModel"
-            type="com.socialite.sores.viewModels.MainViewModel" />
+            type="com.socialite.sores_food.viewModels.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
