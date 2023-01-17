@@ -6,7 +6,7 @@
     <data>
         <variable
             name="result"
-            type="com.socialite.sores.models.Result" />
+            type="com.socialite.sores_food.models.Result" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

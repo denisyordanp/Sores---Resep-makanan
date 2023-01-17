@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/recipesFragment"
-        android:name="com.socialite.sores.ui.fragments.recipe.RecipeFragment"
+        android:name="com.socialite.sores_food.ui.fragments.recipe.RecipeFragment"
         android:label="Recipes"
         tools:layout="@layout/fragment_recipes">
         <action
@@ -24,7 +24,7 @@
 
     <fragment
         android:id="@+id/favoriteRecipesFragment"
-        android:name="com.socialite.sores.ui.fragments.favorites.FavoriteRecipeFragment"
+        android:name="com.socialite.sores_food.ui.fragments.favorites.FavoriteRecipeFragment"
         android:label="Favorites"
         tools:layout="@layout/fragment_favorite_recipes" >
         <action
@@ -33,12 +33,12 @@
     </fragment>
     <fragment
         android:id="@+id/foodJokeFragment"
-        android:name="com.socialite.sores.ui.fragments.foodJokes.FoodJokeFragment"
+        android:name="com.socialite.sores_food.ui.fragments.foodJokes.FoodJokeFragment"
         android:label="Food Joke"
         tools:layout="@layout/fragment_food_joke" />
     <dialog
         android:id="@+id/recipeBottomSheet"
-        android:name="com.socialite.sores.ui.fragments.recipe.RecipeBottomSheet"
+        android:name="com.socialite.sores_food.ui.fragments.recipe.RecipeBottomSheet"
         android:label="RecipeBottomSheet">
         <action
             android:id="@+id/action_recipeBottomSheet_to_recipesFragment"
@@ -48,11 +48,11 @@
     </dialog>
     <activity
         android:id="@+id/detailsActivity"
-        android:name="com.socialite.sores.ui.DetailsActivity"
+        android:name="com.socialite.sores_food.ui.DetailsActivity"
         android:label="activity_details"
         tools:layout="@layout/activity_details">
         <argument
             android:name="result"
-            app:argType="com.socialite.sores.models.Result" />
+            app:argType="com.socialite.sores_food.models.Result" />
     </activity>
 </navigation>
