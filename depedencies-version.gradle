@@ -1,0 +1,6 @@
+project.ext {
+    kotlinVersion = '1.5.31'
+    roomVersion = '2.2.5'
+    hiltVersion = '2.40.5'
+    navigationVersion = '2.5.3'
+}
