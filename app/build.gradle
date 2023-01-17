@@ -12,11 +12,11 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "com.socialite.sores"
+        applicationId "com.socialite.sores_food"
         minSdkVersion 24
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode appVersionCode.toInteger()
+        versionName appVersionName
         multiDexEnabled true
 
         vectorDrawables {
