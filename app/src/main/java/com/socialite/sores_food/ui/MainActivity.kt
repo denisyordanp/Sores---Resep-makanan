@@ -5,7 +5,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
@@ -15,7 +15,6 @@ import com.socialite.sores_food.util.NetworkListener
 import com.socialite.sores_food.viewModels.RecipesViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
@@ -35,14 +34,16 @@ class  MainActivity : AppCompatActivity() {
         setTheme(R.style.Theme_SoresResepMakanan)
         setContentView(_binding.root)
 
-        navController = findNavController(R.id.navHostFragment)
-
         setUpNavigation()
         setNetworkStatusListener()
     }
 
     private fun setUpNavigation() {
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.navHostFragment) as NavHostFragment
+        navController = navHostFragment.navController
+
         _binding.bottomNavigationView.setupWithNavController(navController)
+
         setupActionBarWithNavController(navController, getAppBarConfigurations())
     }
 
